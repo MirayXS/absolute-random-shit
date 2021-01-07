@@ -1,0 +1,6 @@
+local Test = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/chimnguu/ngu/master/ui_library_cyber_only.lua"))()
+local Window = Test:CreateWindows("Window")
+local Section =  Window:NewSection
+Section:NewButton("Button", function()
+
+end)
