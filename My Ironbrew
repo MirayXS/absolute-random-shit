@@ -1,0 +1,675 @@
+--Ironbrew fork made by SyndiCat
+return (function(_k, _j, _a)
+    local _l = string.char
+    local _e = string.sub
+    local _o = table.concat
+
+    local _n = math.ldexp
+    local _p = getfenv or function()
+            return _ENV
+        end
+    local _m = select
+    local _g = unpack or table.unpack
+    local _i = tonumber
+    local function _q(_h)
+        local _b, _c, _g = "", "", {}
+        local _d = 256
+        local _f = {}
+        for _a = 0, _d - 1 do
+            _f[_a] = _l(_a)
+        end
+        local _a = 1
+        local function _j()
+            local _b = _i(_e(_h, _a, _a), 36)
+            _a = _a + 1
+            local _c = _i(_e(_h, _a, _a + _b - 1), 36)
+            _a = _a + _b
+            return _c
+        end
+        _b = _l(_j())
+        _g[1] = _b
+        while _a < #_h do
+            local _a = _j()
+            if _f[_a] then
+                _c = _f[_a]
+            else
+                _c = _b .. _e(_b, 1, 1)
+            end
+            _f[_d] = _b .. _e(_c, 1, 1)
+            _g[#_g + 1], _b, _d = _c, _c, _d + 1
+        end
+        return table.concat(_g)
+    end
+    local _i =
+        _q(
+        "24X24527524624427524526427727926X27C27526Y27F24526U27I26S27I25127I24O27I25327I26927I27127I27027I26E27I26V27I26Z27I26P27I26O27I26L27I26W27I26D27I24F27I26F27I25927I25527I25824624727926424K24623M27925E27126K25126K26Y26825126P26826W26D25126U26Y26Z26E26926S26Z26926E24Q24624V27926526O28Z26X26Y26Y27229029225126826E26O26P25126S29929B26U26S26925126D26F27029G25126R26826Z26U26927029B2552A126F26O2AC29129326E26W26S26F27U25927925C25E25C25126Z27026U26O25126926F28Z26A2702692712B72712A62A329C29E2AC29529725126226A26224624F27D26Y26S26P29D2AA26Z26Q2462402792A92AB27U2412792AT2BD24624327926F29F26P26Y26W28Q2792CL2462C827527126826Q2882C327529E26V26X2882CD27529A2AG2A626W2CL23Z27925327923R2752782CK2452DB24528Q2462DA2762452CO2DF2752C82CU2DO2452C32DE2DG2CD2D02DS2422DT2DK24524D2452DY2DG24C2452E027523R23O2452BT2E42EB27524E2452E82EH2452492EE2E22482452EJ2EM24B2EN2E224A2E32E223P2DH2E22ED2DJ2EM2DB2DN2DG23Q2E12EB2ED23L2F22EM23K2E52E223N2452ER2EM28V2E627523X2E92E223W2EZ2EM2D72ET2DS23Y2EW2EM23T2FV2DS23S2FF2DF2ED23V2452F52DS23U2DM2E22512FB2DS2502G72DG2D92FP2452522GF2EM2742EA2DS24W2G42DG24Z2GI2DG24Y2452EV2FC2452AX2EG2DS2582FI2EM25B2GL27525A2GB2E22552GR2DS2542H02752572HE2452562HB2DS24L2452EY2EM24K2FS2EB2DB24N2HT24528V2752I327823R2DB2782H82EC2F22F12EM2DJ2ED2EM2DQ2E22C32DG2DS2CD2FA2EM2E02DV2752E42IG2DS2E82ID2752BT2FE2EM2EJ2IR2G82EW2FH2EM2ER2FY2DG2EV2H42DS2EY2EL2DS2F12FK2EM2ED2DR2DG2DB2I62DS2FA2FM2DS2FE2JR2DG2FH2F82DB2FK2JX2JQ2HW2DA2D92FR2FR2EM2FU2J32DS2D72KC2DG2G02KC2CL2452G028Q23R2782DC2CL2G02DL2EM2782D72EM28Q2KR2DS2DJ2G32KJ2DL2I92KO2452FU2EB2DE2G62L82452782GA2752432DY25L2LC2LJ2412JU2LI2782LL27926O2LJ23R2DE2LE2DF2E82782GE2752GH2LJ2782GH2DG28Q2GK2IH2452LZ2452M12DJ2DJ2D92792782GC2L22LK2CL26X2LS2L92DA2E02782GQ2M02KP2782742M52LJ2KJ2DD2MJ2792DE2MG2MY2M72MY2L2"
+    )
+    local _a = (bit or bit32)
+    local _d = _a and _a.bxor or function(_a, _c)
+            local _b, _d, _e = 1, 0, 10
+            while _a > 0 and _c > 0 do
+                local _e, _f = _a % 2, _c % 2
+                if _e ~= _f then
+                    _d = _d + _b
+                end
+                _a, _c, _b = (_a - _e) / 2, (_c - _f) / 2, _b * 2
+            end
+            if _a < _c then
+                _a = _c
+            end
+            while _a > 0 do
+                local _c = _a % 2
+                if _c > 0 then
+                    _d = _d + _b
+                end
+                _a, _b = (_a - _c) / 2, _b * 2
+            end
+            return _d
+        end
+    local function _c(_b, _a, _c)
+        if _c then
+            local _a = (_b / 2 ^ (_a - 1)) % 2 ^ ((_c - 1) - (_a - 1) + 1)
+            return _a - _a % 1
+        else
+            local _a = 2 ^ (_a - 1)
+            return (_b % (_a + _a) >= _a) and 1 or 0
+        end
+    end
+    local _a = 1
+    local function _b()
+        local _f, _e, _b, _c = _k(_i, _a, _a + 3)
+        _f = _d(_f, 149)
+        _e = _d(_e, 149)
+        _b = _d(_b, 149)
+        _c = _d(_c, 149)
+        _a = _a + 4
+        return (_c * 16777216) + (_b * 65536) + (_e * 256) + _f
+    end
+    local function _h()
+        local _b = _d(_k(_i, _a, _a), 149)
+        _a = _a + 1
+        return _b
+    end
+    local function _f()
+        local _b, _c = _k(_i, _a, _a + 2)
+        _b = _d(_b, 149)
+        _c = _d(_c, 149)
+        _a = _a + 2
+        return (_c * 256) + _b
+    end
+    local function _q()
+        local _a = _b()
+        local _b = _b()
+        local _e = 1
+        local _d = (_c(_b, 1, 20) * (2 ^ 32)) + _a
+        local _a = _c(_b, 21, 31)
+        local _b = ((-1) ^ _c(_b, 32))
+        if (_a == 0) then
+            if (_d == 0) then
+                return _b * 0
+            else
+                _a = 1
+                _e = 0
+            end
+        elseif (_a == 2047) then
+            return (_d == 0) and (_b * (1 / 0)) or (_b * (0 / 0))
+        end
+        return _n(_b, _a - 1023) * (_e + (_d / (2 ^ 52)))
+    end
+    local _n = _b
+    local function _r(_b)
+        local _c
+        if (not _b) then
+            _b = _n()
+            if (_b == 0) then
+                return ""
+            end
+        end
+        _c = _e(_i, _a, _a + _b - 1)
+        _a = _a + _b
+        local _b = {}
+        for _a = 1, #_c do
+            _b[_a] = _l(_d(_k(_e(_c, _a, _a)), 149))
+        end
+        return _o(_b)
+    end
+    local _a = _b
+    local function _o(...)
+        return {...}, _m("#", ...)
+    end
+    local function _k()
+        local _l = {}
+        local _j = {}
+        local _a = {}
+        local _i = {
+            [#{"1 + 1 = 111", "1 + 1 = 111"}] = _j,
+            [#{"1 + 1 = 111", {856, 977, 72, 819}, "1 + 1 = 111"}] = nil,
+            [#{{786, 61, 489, 387}, "1 + 1 = 111", "1 + 1 = 111", {949, 104, 680, 97}}] = _a,
+            [#{"1 + 1 = 111"}] = _l
+        }
+        local _a = _b()
+        local _e = {}
+        for _c = 1, _a do
+            local _b = _h()
+            local _a
+            if (_b == 0) then
+                _a = (_h() ~= 0)
+            elseif (_b == 2) then
+                _a = _q()
+            elseif (_b == 3) then
+                _a = _r()
+            end
+            _e[_c] = _a
+        end
+        for _i = 1, _b() do
+            local _a = _h()
+            if (_c(_a, 1, 1) == 0) then
+                local _d = _c(_a, 2, 3)
+                local _g = _c(_a, 4, 6)
+                local _a = {_f(), _f(), nil, nil}
+                if (_d == 0) then
+                    _a[3] = _f()
+                    _a[4] = _f()
+                elseif (_d == 1) then
+                    _a[3] = _b()
+                elseif (_d == 2) then
+                    _a[3] = _b() - (2 ^ 16)
+                elseif (_d == 3) then
+                    _a[3] = _b() - (2 ^ 16)
+                    _a[4] = _f()
+                end
+                if (_c(_g, 1, 1) == 1) then
+                    _a[2] = _e[_a[2]]
+                end
+                if (_c(_g, 2, 2) == 1) then
+                    _a[3] = _e[_a[3]]
+                end
+                if (_c(_g, 3, 3) == 1) then
+                    _a[4] = _e[_a[4]]
+                end
+                _l[_i] = _a
+            end
+        end
+        _i[3] = _h()
+        for _a = 1, _b() do
+            _j[_a - 1] = _k()
+        end
+        return _i
+    end
+    local function _n(_a, _b, _h)
+        _a = (_a == true and _k()) or _a
+        return (function(...)
+            local _d = _a[1]
+            local _e = _a[3]
+            local _a = _a[2]
+            local _i = _o
+            local _b = 1
+            local _f = -1
+            local _n = {}
+            local _l = {...}
+            local _k = _m("#", ...) - 1
+            local _a = {}
+            local _c = {}
+            for _a = 0, _k do
+                if (_a >= _e) then
+                    _n[_a - _e] = _l[_a + 1]
+                else
+                    _c[_a] = _l[_a + #{{737, 86, 307, 153}}]
+                end
+            end
+            local _a = _k - _e + 1
+            local _a
+            local _e
+            while true do
+                _a = _d[_b]
+                _e = _a[1]
+                if _e <= 18 then
+                    if _e <= 8 then
+                        if _e <= 3 then
+                            if _e <= 1 then
+                                if _e == 0 then
+                                    local _a = _a[2]
+                                    _c[_a] = _c[_a](_g(_c, _a + 1, _f))
+                                else
+                                    _h[_a[3]] = _c[_a[2]]
+                                end
+                            elseif _e == 2 then
+                                _c[_a[2]] = _h[_a[3]]
+                            else
+                                _c[_a[2]] = {}
+                            end
+                        elseif _e <= 5 then
+                            if _e == 4 then
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                            else
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                            end
+                        elseif _e <= 6 then
+                            if (_c[_a[2]] ~= _c[_a[4]]) then
+                                _b = _b + 1
+                            else
+                                _b = _a[3]
+                            end
+                        elseif _e > 7 then
+                            do
+                                return
+                            end
+                        else
+                            local _j
+                            local _k, _l
+                            local _e
+                            _c[_a[2]] = _h[_a[3]]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _c[_a[3]][_a[4]]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _h[_a[3]]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _e = _a[2]
+                            _k, _l = _i(_c[_e](_c[_e + 1]))
+                            _f = _l + _e - 1
+                            _j = 0
+                            for _a = _e, _f do
+                                _j = _j + 1
+                                _c[_a] = _k[_j]
+                            end
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _e = _a[2]
+                            _c[_e] = _c[_e](_g(_c, _e + 1, _f))
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]]()
+                        end
+                    elseif _e <= 13 then
+                        if _e <= 10 then
+                            if _e == 9 then
+                                local _j
+                                local _k, _l
+                                local _e
+                                _c[_a[2]] = _h[_a[3]]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _c[_a[3]][_a[4]]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _a[3]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _h[_a[3]]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _c[_a[2]] = _c[_a[3]][_a[4]]
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _e = _a[2]
+                                _k, _l = _i(_c[_e](_g(_c, _e + 1, _a[3])))
+                                _f = _l + _e - 1
+                                _j = 0
+                                for _a = _e, _f do
+                                    _j = _j + 1
+                                    _c[_a] = _k[_j]
+                                end
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _e = _a[2]
+                                _c[_e](_g(_c, _e + 1, _f))
+                                _b = _b + 1
+                                _a = _d[_b]
+                                _b = _a[3]
+                            else
+                                local _a = _a[2]
+                                local _d, _b = _i(_c[_a](_c[_a + 1]))
+                                _f = _b + _a - 1
+                                local _b = 0
+                                for _a = _a, _f do
+                                    _b = _b + 1
+                                    _c[_a] = _d[_b]
+                                end
+                            end
+                        elseif _e <= 11 then
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                        elseif _e > 12 then
+                            _b = _a[3]
+                        else
+                            _c[_a[2]] = _h[_a[3]]
+                        end
+                    elseif _e <= 15 then
+                        if _e == 14 then
+                            local _f
+                            local _e
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _e = _a[2]
+                            _f = _c[_e]
+                            for _a = _e + 1, _a[3] do
+                                _j(_f, _c[_a])
+                            end
+                        else
+                            _c[_a[2]]()
+                        end
+                    elseif _e <= 16 then
+                        local _b = _a[2]
+                        local _d, _a = _i(_c[_b](_g(_c, _b + 1, _a[3])))
+                        _f = _a + _b - 1
+                        local _a = 0
+                        for _b = _b, _f do
+                            _a = _a + 1
+                            _c[_b] = _d[_a]
+                        end
+                    elseif _e > 17 then
+                        _c[_a[2]] = _a[3]
+                    else
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                    end
+                elseif _e <= 28 then
+                    if _e <= 23 then
+                        if _e <= 20 then
+                            if _e > 19 then
+                                local _a = _a[2]
+                                _c[_a](_g(_c, _a + 1, _f))
+                            else
+                                if (_c[_a[2]] ~= _c[_a[4]]) then
+                                    _b = _b + 1
+                                else
+                                    _b = _a[3]
+                                end
+                            end
+                        elseif _e <= 21 then
+                            _c[_a[2]] = _a[3]
+                        elseif _e == 22 then
+                            local _b = _a[2]
+                            local _d, _a = _i(_c[_b](_g(_c, _b + 1, _a[3])))
+                            _f = _a + _b - 1
+                            local _a = 0
+                            for _b = _b, _f do
+                                _a = _a + 1
+                                _c[_b] = _d[_a]
+                            end
+                        else
+                            local _b = _a[2]
+                            local _d = _c[_b]
+                            for _a = _b + 1, _a[3] do
+                                _j(_d, _c[_a])
+                            end
+                        end
+                    elseif _e <= 25 then
+                        if _e == 24 then
+                            _b = _a[3]
+                        else
+                            local _a = _a[2]
+                            _c[_a](_g(_c, _a + 1, _f))
+                        end
+                    elseif _e <= 26 then
+                        _c[_a[2]] = {}
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                    elseif _e == 27 then
+                        local _f
+                        local _e
+                        _c[_a[2]] = {}
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _e = _a[2]
+                        _f = _c[_e]
+                        for _a = _e + 1, _a[3] do
+                            _j(_f, _c[_a])
+                        end
+                    else
+                        local _b = _a[2]
+                        local _d = _c[_b]
+                        for _a = _b + 1, _a[3] do
+                            _j(_d, _c[_a])
+                        end
+                    end
+                elseif _e <= 33 then
+                    if _e <= 30 then
+                        if _e == 29 then
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                            _b = _b + 1
+                            _a = _d[_b]
+                            _c[_a[2]] = _a[3]
+                        else
+                            local _a = _a[2]
+                            _c[_a] = _c[_a](_g(_c, _a + 1, _f))
+                        end
+                    elseif _e <= 31 then
+                        _c[_a[2]]()
+                    elseif _e == 32 then
+                        _c[_a[2]] = _c[_a[3]][_a[4]]
+                    else
+                        do
+                            return
+                        end
+                    end
+                elseif _e <= 35 then
+                    if _e > 34 then
+                        local _a = _a[2]
+                        local _d, _b = _i(_c[_a](_c[_a + 1]))
+                        _f = _b + _a - 1
+                        local _b = 0
+                        for _a = _a, _f do
+                            _b = _b + 1
+                            _c[_a] = _d[_b]
+                        end
+                    else
+                        local _f
+                        local _e
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _c[_a[2]] = _a[3]
+                        _b = _b + 1
+                        _a = _d[_b]
+                        _e = _a[2]
+                        _f = _c[_e]
+                        for _a = _e + 1, _a[3] do
+                            _j(_f, _c[_a])
+                        end
+                    end
+                elseif _e <= 36 then
+                    _c[_a[2]] = {}
+                elseif _e > 37 then
+                    _c[_a[2]] = _c[_a[3]][_a[4]]
+                else
+                    _h[_a[3]] = _c[_a[2]]
+                end
+                _b = _b + 1
+            end
+        end)
+    end
+    return _n(true, {}, _p())()
+end)(string.byte, table.insert, setmetatable)
