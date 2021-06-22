@@ -1,0 +1,307 @@
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Media;
+//This stuff isnt relevent ^
+namespace MagicPng {
+  internal static class ImageTransformer {
+    public static void previewTransform(string file, string fileForSize, string output, Color lightColor, Color darkColor, bool invert, bool invertBg) {
+      Bitmap val = new Bitmap(file);
+      int num = ((Image) val).get_Width();
+      int num2 = ((Image) val).get_Height();
+      if (fileForSize != "") {
+        Bitmap val2 = new Bitmap(fileForSize);
+        num = Math.Max(((Image) val).get_Width(), ((Image) val2).get_Width());
+        num2 = Math.Max(((Image) val).get_Height(), ((Image) val2).get_Height());
+        ((Image) val2).Dispose();
+      }
+      Bitmap val3 = new Bitmap(num, num2);
+      Color val4 = mColorToDColor(lightColor);
+      Color val5 = mColorToDColor(darkColor);
+      Color val6 = val4;
+      if (invertBg != invert) {
+        val6 = val5;
+      }
+      Graphics obj = Graphics.FromImage((Image) val3);
+      ColorMatrix previewColorMatrix = getPreviewColorMatrix(lightColor, darkColor, invert);
+      ImageAttributes val7 = new ImageAttributes();
+      val7.SetColorMatrix(previewColorMatrix);
+      int num3 = (num - ((Image) val).get_Width()) / 2;
+      int num4 = (num2 - ((Image) val).get_Height()) / 2;
+      obj.FillRectangle((Brush) new SolidBrush(val6), new Rectangle(0, 0, num, num2));
+      obj.DrawImage((Image)(object) val, new Rectangle(num3, num4, ((Image) val).get_Width(), ((Image) val).get_Height()), 0, 0, ((Image) val).get_Width(), ((Image) val).get_Height(), (GraphicsUnit) 2, val7);
+      obj.Dispose();
+      ((Image) val3).Save(output);
+      ((Image) val).Dispose();
+      ((Image) val3).Dispose();
+    }
+
+    private static Color getPixelFromBitmap(Bitmap img, int x, int y, int width, int height) {
+
+      int num = (width - ((Image) img).get_Width()) / 2;
+      int num2 = (height - ((Image) img).get_Height()) / 2;
+      int num3 = x - num;
+      int num4 = y - num2;
+      if (0 <= num3 && num3 < ((Image) img).get_Width() && 0 <= num4 && num4 < ((Image) img).get_Height()) {
+        return img.GetPixel(num3, num4);
+      }
+      return Color.FromArgb(0);
+    }
+
+    private static ColorMatrix getPreviewColorMatrix(Color lightColor, Color darkColor, bool invert) {
+
+      ColorMatrix f = new ColorMatrix(new float[5][] {
+        new float[5] {
+            0.33333334 f,
+            0.33333334 f,
+            0.33333334 f,
+            0 f,
+            0 f
+          },
+          new float[5] {
+            0.33333334 f,
+            0.33333334 f,
+            0.33333334 f,
+            0 f,
+            0 f
+          },
+          new float[5] {
+            0.33333334 f,
+            0.33333334 f,
+            0.33333334 f,
+            0 f,
+            0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            0 f,
+            1 f,
+            0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            0 f,
+            0 f,
+            1 f
+          }
+      });
+      ColorMatrix f2 = new ColorMatrix(new float[5][] {
+        new float[5] {
+            1 f,
+            0 f,
+            0 f,
+            0 f,
+            0 f
+          },
+          new float[5] {
+            0 f,
+            1 f,
+            0 f,
+            0 f,
+            0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            1 f,
+            0 f,
+            0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            0 f,
+            1 f,
+            0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            0 f,
+            0 f,
+            1 f
+          }
+      });
+      if (invert) {
+        f2 = new ColorMatrix(new float[5][] {
+          new float[5] {
+              -1 f,
+              0 f,
+              0 f,
+              0 f,
+              0 f
+            },
+            new float[5] {
+              0 f,
+              -1 f,
+              0 f,
+              0 f,
+              0 f
+            },
+            new float[5] {
+              0 f,
+              0 f,
+              -1 f,
+              0 f,
+              0 f
+            },
+            new float[5] {
+              0 f,
+              0 f,
+              0 f,
+              1 f,
+              0 f
+            },
+            new float[5] {
+              1 f,
+              1 f,
+              1 f,
+              0 f,
+              1 f
+            }
+        });
+      }
+      int r = ((Color)(ref darkColor)).get_R();
+      int g = ((Color)(ref darkColor)).get_G();
+      int b = ((Color)(ref darkColor)).get_B();
+      int num = ((Color)(ref lightColor)).get_R() - r;
+      int num2 = ((Color)(ref lightColor)).get_G() - g;
+      int num3 = ((Color)(ref lightColor)).get_B() - b;
+      return MatrixMultiply(MatrixMultiply(new ColorMatrix(new float[5][] {
+        new float[5] {
+            (float) num / 255 f,
+              0 f,
+              0 f,
+              0 f,
+              0 f
+          },
+          new float[5] {
+            0 f,
+            (float) num2 / 255 f,
+              0 f,
+              0 f,
+              0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            (float) num3 / 255 f,
+              0 f,
+              0 f
+          },
+          new float[5] {
+            0 f,
+            0 f,
+            0 f,
+            1 f,
+            0 f
+          },
+          new float[5] {
+            (float) r / 255 f,
+              (float) g / 255 f,
+              (float) b / 255 f,
+              0 f,
+              1 f
+          }
+      }), f2), f);
+    }
+
+    private static byte weightedAverage(byte val1, byte weight1, byte val2, byte weight2) {
+      if (weight1 + weight2 == 0) {
+        return (byte)((val1 + val2) / 2);
+      }
+      return (byte)((val1 * weight1 + val2 * weight2) / (weight1 + weight2));
+    }
+
+    private static Color weightedAverage(Color val1, byte weight1, Color val2, byte weight2) {
+      if (weight1 + weight2 == 0) {
+        return weightedAverage(val1, 127, val2, 127);
+      }
+      byte b = weightedAverage(((Color)(ref val1)).get_R(), weight1, ((Color)(ref val2)).get_R(), weight2);
+      byte b2 = weightedAverage(((Color)(ref val1)).get_G(), weight1, ((Color)(ref val2)).get_G(), weight2);
+      byte b3 = weightedAverage(((Color)(ref val1)).get_B(), weight1, ((Color)(ref val2)).get_B(), weight2);
+      return Color.FromArgb(255, (int) b, (int) b2, (int) b3);
+    }
+
+    public static Color weightedAverage(Color val1, byte weight1, Color val2, byte weight2) {
+    ));
+}
+
+private static Color mColorToDColor(Color color) {
+  return Color.FromArgb((int)((Color)(ref color)).get_A(), (int)((Color)(ref color)).get_R(), (int)((Color)(ref color)).get_G(), (int)((Color)(ref color)).get_B());
+}
+
+private static Color dColorToMColor(Color color) {
+
+  return Color.FromArgb(((Color)(ref color)).get_A(), ((Color)(ref color)).get_R(), ((Color)(ref color)).get_G(), ((Color)(ref color)).get_B());
+}
+
+public static void mergeImages(string file1, string file2, string output, Color lightColor, Color darkColor, bool invert1, bool invertBg1, bool invert2, bool invertBg2) {
+
+  Bitmap val = new Bitmap(file1);
+  Bitmap val2 = new Bitmap(file2);
+  int num = Math.Max(((Image) val).get_Width(), ((Image) val2).get_Width());
+  int num2 = Math.Max(((Image) val).get_Height(), ((Image) val2).get_Height());
+  Bitmap val3 = new Bitmap(num, num2);
+  Color lightColor2 = mColorToDColor(lightColor);
+  Color darkColor2 = mColorToDColor(darkColor);
+  for (int i = 0; i < num; i++) {
+    for (int j = 0; j < num2; j++) {
+      Color pixelFromBitmap = getPixelFromBitmap(val, i, j, num, num2);
+      Color pixelFromBitmap2 = getPixelFromBitmap(val2, i, j, num, num2);
+      val3.SetPixel(i, j, mergeGetColor(pixelFromBitmap, pixelFromBitmap2, lightColor2, darkColor2, invert1, invertBg1, invert2, invertBg2));
+    }
+  }
+  ((Image) val3).Save(output);
+  ((Image) val).Dispose();
+  ((Image) val2).Dispose();
+  ((Image) val3).Dispose();
+}
+
+private static Color mergeGetColor(Color pixel1, Color pixel2, Color lightColor, Color darkColor, bool invert1, bool invertBg1, bool invert2, bool invertBg2) {
+  (might be due to invalid IL or missing references)
+  byte lum = getLum(pixel1, invert1, invertBg1);
+  byte lum2 = getLum(pixel2, invert2, invertBg2);
+  byte b = weightedAverage(((Color)(ref darkColor)).get_R(), lum, ((Color)(ref lightColor)).get_R(), lum2);
+  byte b2 = weightedAverage(((Color)(ref darkColor)).get_G(), lum, ((Color)(ref lightColor)).get_G(), lum2);
+  byte b3 = weightedAverage(((Color)(ref darkColor)).get_B(), lum, ((Color)(ref lightColor)).get_B(), lum2);
+  return Color.FromArgb((int)(byte)((lum + lum2) / 2), (int) b, (int) b2, (int) b3);
+}
+
+private static byte getLum(Color pixel, bool invert, bool invertBg) {
+  byte b = (byte)((((Color)(ref pixel)).get_R() + ((Color)(ref pixel)).get_G() + ((Color)(ref pixel)).get_B()) / 3);
+  byte val = byte.MaxValue;
+  if (invertBg != invert) {
+    val = 0;
+  }
+  if (invert) {
+    b = (byte)(255 - b);
+  }
+  return weightedAverage(b, ((Color)(ref pixel)).get_A(), val, (byte)(255 - ((Color)(ref pixel)).get_A()));
+}
+
+private static ColorMatrix MatrixMultiply(ColorMatrix f1, ColorMatrix f2) {
+  float[][] array = new float[5][];
+  for (int i = 0; i < 5; i++) {
+    array[i] = new float[5];
+  }
+  int num = 5;
+  float[] array2 = new float[5];
+  for (int j = 0; j < 5; j++) {
+    for (int k = 0; k < 5; k++) {
+      array2[k] = f1.get_Item(k, j);
+    }
+    for (int l = 0; l < 5; l++) {
+      float num2 = 0 f;
+      for (int m = 0; m < num; m++) {
+        num2 += f2.get_Item(l, m) * array2[m];
+      }
+      array[l][j] = num2;
+    }
+  }
+  return new ColorMatrix(array);
+}
+}
+}
