@@ -1,0 +1,33 @@
+B = print
+C = "TOKEN_HERE"
+D = "!"
+import discord
+from discord.ext import commands as E
+
+B("[Info] Logging into Discord")
+A = E.Bot(command_prefix=D, self_bot=True)
+A.remove_command("help")
+
+
+@A.event
+async def F():
+    B("\n\n[Welcome] Ready! I await your command..")
+    B(f"[Welcome] Name: {A.user.name}")
+    B(f"[Welcome] ID: {A.user.id}\n\n")
+
+
+@A.command()
+async def G(ctx, limit=None):
+    C = 0
+    D = 0
+    async for E in ctx.message.channel.history(limit=limit):
+        if E.author.id == A.user.id:
+            try:
+                await E.delete()
+                C = 1
+            except:
+                D = 1
+    B(f"[Complete] Removed {C} messages with {D} fails")
+
+
+A.run(C, bot=False)
